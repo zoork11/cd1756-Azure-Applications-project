@@ -114,7 +114,7 @@ def logout():
         app.logger.error(url_for("login", _external=True))
         return redirect(
             Config.AUTHORITY + "/oauth2/v2.0/logout" +
-            "?post_logout_redirect_uri=" + url_for("login", _external=True))
+            "?post_logout_redirect_uri=" + url_for("login", _external=True, _scheme='https'))
 
     return redirect(url_for('login'))
 
