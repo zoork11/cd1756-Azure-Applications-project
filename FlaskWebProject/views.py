@@ -60,9 +60,6 @@ def post(id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    app.logger.info('info')
-    app.logger.warning('warning')
-    app.logger.error('error')
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = LoginForm()
@@ -70,10 +67,10 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
-            app.logger.error('Failed login attempt with username %s', form.username.data)
+            app.logger.info('Failed login attempt with username %s', form.username.data)
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        app.logger.error('%s logged in successfully', user.username)
+        app.logger.info('%s logged in successfully', user.username)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('home')
@@ -97,10 +94,9 @@ def authorized():
         session["user"] = result.get("id_token_claims")
         # Note: In a real app, we'd use the 'name' property from session["user"] below
         # Here, we'll use the admin username for anyone who is authenticated by MS
-        print(session["user"])
         user = User.query.filter_by(username="admin").first()
         login_user(user)
-        app.logger.error('%s logged in successfully', user.username)
+        app.logger.info('%s logged in successfully', user.username)
         _save_cache(cache)
     return redirect(url_for('home'))
 
@@ -111,7 +107,6 @@ def logout():
         # Wipe out user and its token cache from session
         session.clear()
         # Also logout from your tenant's web session
-        app.logger.error(url_for("login", _external=True))
         return redirect(
             Config.AUTHORITY + "/oauth2/v2.0/logout" +
             "?post_logout_redirect_uri=" + url_for("login", _external=True, _scheme='https'))
