@@ -67,10 +67,10 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
-            app.logger.info('Failed login attempt with username %s', form.username.data)
+            app.logger.error('Failed login attempt with username %s', form.username.data)
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        app.logger.info('%s logged in successfully', user.username)
+        app.logger.error('%s logged in successfully', user.username)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('home')
@@ -97,7 +97,7 @@ def authorized():
         print(session["user"])
         user = User.query.filter_by(username="admin").first()
         login_user(user)
-        app.logger.info('%s logged in successfully', user.username)
+        app.logger.error('%s logged in successfully', user.username)
         _save_cache(cache)
     return redirect(url_for('home'))
 
@@ -108,7 +108,7 @@ def logout():
         # Wipe out user and its token cache from session
         session.clear()
         # Also logout from your tenant's web session
-        app.logger.info(url_for("login", _external=True))
+        app.logger.error(url_for("login", _external=True))
         return redirect(
             Config.AUTHORITY + "/oauth2/v2.0/logout" +
             "?post_logout_redirect_uri=" + url_for("login", _external=True))
