@@ -14,15 +14,10 @@ In terms of availability an App Service helps since Microsoft will take care of 
 The workflow for developing and hosting an app is less complex with an App Service, since Microsoft serves a fully configured system where only minimal configuration and no management of the system is needed.
 
                               | VM        | App Service
-------------------------------|-----------|---------------
 Costs                         | higher    | lower
-------------------------------|-----------|---------------
 Control/Flexibilty            | higher    | lower
-------------------------------|-----------|---------------
 Management effort             | higher    | lower
-------------------------------|-----------|---------------
 Scalability                   | higher    | lower
-------------------------------|-----------|---------------
 
 The table shows the differneces between the two services. For the CMS app my priority would be to have lowest possible management effort in order to focus on creating the application instead of setting up the environment. It is faster to setup a fully working app due to the reduced complexity. Another nice benefit are the lower costs for running an App Service.
 Since the flexibility and scalability of a VM are not needed or demanded in this task an App Service is in my opinion the better choice.
